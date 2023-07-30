@@ -1,0 +1,16 @@
+cloud:
+  aws:
+    credentials:
+      access-key: AKIAVOFBO33JQF7O2CXS
+      secret-key: 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
+    region:
+      static: us-east-1
+    stack:
+      auto: false
+
+application:
+  bucket:
+    name: filehandling
+
+server:
+  port: 9091

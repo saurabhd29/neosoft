@@ -1,0 +1,86 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: userinfo-service
+  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+    url : jdbc:mysql://localhost:3307/userinfo
+#    url : jdbc:mysql://mysqldb.cp4czowxziju.us-east-1.rds.amazonaws.com:3306/userinfo
+    username : root
+    password : 123
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto : update
+  #spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQLDialect
+  #spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  cache:
+    type: redis
+    redis:
+      cache-null-values: true
+  kafka:
+    topic:
+      name: userRegLogin4
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring:
+          json:
+            type:
+              mapping: event:com.userService.event.PublishEvent
+eureka:
+  instance:
+    prefer-Ip-Address: true
+    instance-id: ${server.address:localhost}:${spring.application.name}:${server.port}
+  client:
+    #    fetch-registry-with-eureka: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://jack:jack@localhost:8761/eureka/
+
+
+
+server:
+  port: 9002
+
+
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+  endpoint:
+    health:
+      show-details: always
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      findallBreaker:
+        registerHealthIndicator: true
+        eventConsumerBufferSize: 10
+        failureRateThreshold: 50
+        minimumNumberOfCalls: 3
+        automaticTransitionFromOpenToHalfOpenState: true
+        waitDurationInOpenState: 4s
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowSize: 1
+        slidingWindowType: COUNT_BASED
+      registerCircuitBreaker:
+        registerHealthIndicator: true
+        eventConsumerBufferSize: 10
+        failureRateThreshold: 50
+        minimumNumberOfCalls: 3
+        automaticTransitionFromOpenToHalfOpenState: true
+        waitDurationInOpenState: 4s
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowSize: 1
+        slidingWindowType: COUNT_BASED

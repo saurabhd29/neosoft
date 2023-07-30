@@ -1,0 +1,11 @@
+eureka:
+  instance:
+    prefer-Ip-Address: true
+    instance-id: ${server.address}:${spring.application.name}:${server.port}
+  client:
+    service-url:
+      defaultZone : http://jack:jack@localhost:8761/eureka/
+
+server:
+  port: 9005
+  address: 10.0.60.209

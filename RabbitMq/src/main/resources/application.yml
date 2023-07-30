@@ -1,0 +1,7 @@
+server:
+  port: 9011
+
+
+#spring:
+#  rabbitmq:
+#    port: 15672

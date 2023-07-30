@@ -1,0 +1,34 @@
+server:
+  address: 10.0.61.70
+  port: 9007
+
+eureka:
+  instance:
+    prefer-Ip-Address: true
+    instance-id: ${server.address:localhost}:${spring.application.name:mongoService}:${server.port}
+  client:
+    service-url:
+      defaultZone : http://jack:jack@localhost:8761/eureka/
+
+
+spring:
+  main:
+    :allow-bean-definition-overriding: true
+  application:
+    name: MONGO-SERVICE
+  data:
+    mongodb:
+      authentication-database: admin
+      username: rootuser
+      password: rootpass
+      database: mydb
+      port: 27017
+      host: localhost
+      auto-index-creation: true
+#      uri: mongodb+srv://wap:wap12345@mycluster.qhr4vxd.mongodb.net/test
+#      uri: mongodb://localhost:27017/mydb
+  servlet:
+    multipart:
+      max-file-size: 256MB
+      max-request-size: 256MB
+      enabled: true
