@@ -1,0 +1,45 @@
+server:
+  address: 192.168.3.173
+  port: 9000
+
+
+spring:
+  application:
+    name: DBAdminGateway
+  datasource:
+    url: jdbc:mysql://localhost:3307/sample
+    username: root
+    password: 123
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        prefer-ip-address: true
+    gateway:
+      routes:
+        - id: USER-SERVICE
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user/** , /query/**
+
+        - id: ADMIN-SERVICE
+          #          uri: lb://ADMIN-SERVICE
+          uri: lb://ADMIN-SERVICE
+          predicates:
+            - Path=/admin/**
+#      globalcors:
+#        corsConfigurations:
+#          '[/**]':
+#            allowedOrigins: "*"
+#            allowedMethods:
+#              - GET
+#              - POST
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references : true
+
