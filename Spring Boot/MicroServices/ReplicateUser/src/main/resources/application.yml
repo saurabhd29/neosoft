@@ -1,0 +1,43 @@
+spring:
+  datasource:
+    platform: postgres
+#    url: jdbc:postgresql://localhost:5432/user_replication
+    url: jdbc:postgresql://localhost:26257/testdb?sslmode=disable&user=root
+    driverClassName: org.postgresql.Driver
+#    driver-class-name: org.postgresql.Driver
+
+    username: root
+    password:
+  application:
+    name: userReplication-service
+
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+
+#    database: postgresql
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+    generate-ddl: true
+
+
+eureka:
+  instance:
+    prefer-Ip-Address: true
+    instance-id: ${server.address:localhost}:${spring.application.name}:${server.port}
+  client:
+    #    fetch-registry-with-eureka: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://jack:jack@localhost:8761/eureka/
+
+
+
+server:
+  port: 9003

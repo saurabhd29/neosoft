@@ -1,0 +1,73 @@
+spring:
+  application:
+    name: notification-service
+  data:
+    mongodb:
+#      uri: mongodb://localhost:27017/mydb
+     uri: mongodb+srv://wap:wap12345@mycluster.qhr4vxd.mongodb.net/test
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+  kafka:
+    consumer:
+      properties:
+        spring:
+          json:
+            type:
+              mapping: event:com.service.notification.dtos.PublishEvent1
+      group-id: notification
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+    bootstrap-servers: localhost:9092
+    template:
+      default-topic: userRegLogin2
+
+server:
+  port: 9050
+
+#  kafka:
+#    topic:
+#      name: userRegLogin
+#    consumer:
+#      bootstrap-servers: localhost:9092
+#      group-id: notification
+#      auto-offset-reset: earliest
+#      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      #      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+#      properties:
+#        spring:
+#          json:
+#            trusted:
+#              packages: "*"
+
+
+
+#  kafka:
+#    topic:
+#      name: userRegLogin
+#    consumer:
+#      bootstrap-servers: localhost:9092
+#      group-id: notification
+#      auto-offset-reset: earliest
+#      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      #      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+##      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+#      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+#      properties:
+#        spring:
+#          deserializer:
+#            value:
+#              delegate:
+#                class: org.springframework.kafka.support.serializer.JsonDeserializer
+#
+#          json:
+##            type:
+##              mapping: event:com.service.notification.dtos.PublishEvent
+#
+#            trusted:
+#              packages: "*"
+
+#server:
+#  port: 7010

@@ -1,0 +1,12 @@
+server:
+  port: 7000
+
+
+spring:
+  kafka:
+    topic:
+      name: orders_t
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer

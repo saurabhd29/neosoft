@@ -1,0 +1,28 @@
+server:
+  port: 9012
+
+spring:
+  application:
+    name: order-service
+  data:
+    mongodb:
+      #      uri: mongodb://localhost:27017/mydb
+      uri: mongodb+srv://wap:wap12345@mycluster.qhr4vxd.mongodb.net/orders
+  jpa:
+    hibernate:
+      ddl-auto: update # When you launch the application for the first time - switch "none" at "create"
+    show-sql: true
+
+  cache:
+    type: redis
+    redis:
+      cache-null-values: true
+eureka:
+  instance:
+    prefer-Ip-Address: true
+    instance-id: ${server.address:localhost}:${spring.application.name}:${server.port}
+  client:
+    #    fetch-registry-with-eureka: true
+    #    register-with-eureka: true
+    service-url:
+      defaultZone: http://jack:jack@localhost:8761/eureka/

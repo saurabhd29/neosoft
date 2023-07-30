@@ -1,0 +1,84 @@
+spring:
+
+#  cloud:
+#    consul:
+#      host: localhost
+#      port: 8500
+#      discovery:
+#        prefer-ip-address: true
+#      discovery:
+#        instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+
+
+  main:
+    :allow-bean-definition-overriding: true
+  application:
+    name: ADMIN-SERVICE
+  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3307/tokenSecurity
+    username: root
+    password: 123
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+  cache:
+    type: redis
+    redis:
+      cache-null-values: true
+  #spring.cache.redis.time-to-live=40000
+
+eureka:
+  instance:
+    prefer-Ip-Address: true
+    instance-id: ${server.address:localhost}:${spring.application.name}:${server.port}
+  client:
+    service-url:
+      defaultZone : http://jack:jack@localhost:8761/eureka/
+
+server:
+  port: 9001
+
+#  ssl:
+#    enabled: true
+#    key-alias: local_ssl
+#    key-store: classpath:local-ssl.p12
+#    key-store-type: PKCS12
+#    key-password: Qwerty@123
+#    key-store-password: Qwerty@123
+#  servlet:
+#      context-path: /
+
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+  endpoint:
+    health:
+      show-details: always
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      adminFindByUsernameBreaker:
+        registerHealthIndicator: true
+        eventConsumerBufferSize: 10
+        failureRateThreshold: 50
+        minimumNumberOfCalls: 3
+        automaticTransitionFromOpenToHalfOpenState: true
+        waitDurationInOpenState: 4s
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowSize: 1
+        slidingWindowType: COUNT_BASED
+
