@@ -45,9 +45,5 @@ public class PrintClassLoader {
         log.info("Car : {}",result);
         return result;
     }
-
-    public void getJar(String args) throws MalformedURLException, ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException, InvocationTargetException {
-
-
-    }
+    
 }
