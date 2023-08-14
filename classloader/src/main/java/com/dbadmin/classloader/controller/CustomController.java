@@ -18,7 +18,7 @@ public class CustomController {
 
     @GetMapping("/print")
     public String loadClass() throws ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException, MalformedURLException {
-        loader.printClassLoaders();
-        return "Printed";
+        return loader.printClassLoaders();
+
     }
 }

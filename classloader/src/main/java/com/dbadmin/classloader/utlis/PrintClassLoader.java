@@ -21,7 +21,7 @@ public class PrintClassLoader {
 //    @Autowired
 //    ClassLoader loader;
 
-    public void printClassLoaders() throws ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, MalformedURLException {
+    public String printClassLoaders() throws ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, MalformedURLException {
 
         log.info("Current class loader : {}",PrintClassLoader.class.getClassLoader());
 
@@ -40,9 +40,10 @@ public class PrintClassLoader {
 
         Class<?> carClass = loader.loadClass("com.dbadmin.classloader.demo.Car");
         Car someCar = (Car)carClass.newInstance();
-        Object result = someCar.getCarName();
+        String result = someCar.getCarName();
         log.info("Car type : {}",someCar);
         log.info("Car : {}",result);
+        return result;
     }
 
     public void getJar(String args) throws MalformedURLException, ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException, InvocationTargetException {
