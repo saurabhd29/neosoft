@@ -24,12 +24,9 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.UUID;
 
-/**
- * @author chanaka.k
- *
- */
+
 @Component
-public class EncrypyDecryptJweToken {
+public class EncryptDecryptJweToken {
 
     public static void encryptedJsonWebToken()
             throws NoSuchAlgorithmException, InvalidKeySpecException, JOSEException, ParseException {
@@ -54,12 +51,8 @@ public class EncrypyDecryptJweToken {
         claimsSet.subject("JWE-Authentication-Example");
 
         //User specified claims
-        claimsSet.claim("appId", "230919131512092005");
-        claimsSet.claim("userId", "4431d8dc-2f69-4057-9b83-a59385d18c03");
-        claimsSet.claim("role", "Admin");
-        claimsSet.claim("applicationType", "WEB");
-        claimsSet.claim("clientRemoteAddress", "192.168.1.2");
-
+        claimsSet.claim("appId", "1");
+        claimsSet.claim("userId", "1");
         claimsSet.expirationTime(new Date(new Date().getTime() + 1000 * 60 * 10));
         claimsSet.notBeforeTime(new Date());
         claimsSet.jwtID(UUID.randomUUID().toString());

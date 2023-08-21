@@ -1,7 +1,8 @@
 package com.encryptJWT.JWE.controller;
 
 import com.encryptJWT.JWE.beans.response.ServiceResponseBean;
-import com.encryptJWT.JWE.utils.Jwe;
+import com.encryptJWT.JWE.utils.JweByJsonFilePublicKey;
+import com.encryptJWT.JWE.utils.JwtJsonWebEncryption;
 import com.nimbusds.jose.JOSEException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,10 +19,9 @@ import java.text.ParseException;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/token")
-public class TokenController {
-
-    private final Jwe jwe;
+@RequestMapping("/encrypt")
+public class EncryptToken {
+    private final JwtJsonWebEncryption jwe;
     @GetMapping("/create")
     public ServiceResponseBean create(@RequestParam String userId) throws NoSuchAlgorithmException, InvalidKeySpecException, ParseException, JOSEException {
         String jwt = jwe.generateToken(userId);

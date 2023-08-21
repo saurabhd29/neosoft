@@ -5,25 +5,27 @@ import com.nimbusds.jose.crypto.RSADecrypter;
 import com.nimbusds.jose.crypto.RSAEncrypter;
 import com.nimbusds.jose.crypto.RSASSASigner;
 import com.nimbusds.jose.crypto.RSASSAVerifier;
-import com.nimbusds.jose.jwk.KeyUse;
 import com.nimbusds.jose.jwk.RSAKey;
-import com.nimbusds.jose.jwk.gen.RSAKeyGenerator;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
-import org.springframework.stereotype.Component;
+import lombok.extern.slf4j.Slf4j;
+
+import java.io.IOException;
 
 import java.text.ParseException;
 import java.util.Date;
 
+@Slf4j
+public class JwtJsonWebEncryption {
 
-public class Jwe {
-
-    public  Jwe(RSAKey publicRSAKey,RSAKey recipientJWK ){
+    public  JwtJsonWebEncryption(RSAKey publicRSAKey,RSAKey recipientJWK ) throws IOException, ParseException {
         this.publicSignRSAKey = publicRSAKey;
         this.encryptKey = recipientJWK;
     }
     final RSAKey publicSignRSAKey;
     final RSAKey encryptKey;
+
+
     public String generateToken(String userId) throws JOSEException, ParseException, JOSEException {
 //        RSAKey senderJWK = new RSAKeyGenerator(2048)
 //                .keyID("123")
@@ -78,15 +80,26 @@ public class Jwe {
 
         JWEObject jweObject = JWEObject.parse(jweString);
 
-//          Decrypt with private key
         jweObject.decrypt(new RSADecrypter(encryptKey));
 
         SignedJWT signedJWT = jweObject.getPayload().toSignedJWT();
         Boolean valid = signedJWT.verify(new RSASSAVerifier(publicSignRSAKey));
-        System.out.println("validate "+ valid);
-        System.out.println("sub "+signedJWT.getJWTClaimsSet().getSubject());
-        return valid;
+        log.info("validate ::{}"+ valid);
+
+        log.info("sub :: {}",signedJWT.getJWTClaimsSet().getSubject());
+        return valid && !isExpired(signedJWT);
     }
+
+    private boolean isExpired(SignedJWT signedJWT) throws ParseException {
+        boolean exipredToken = new Date().after(signedJWT.getJWTClaimsSet().getExpirationTime());
+        log.info("Ex time :: {}",signedJWT.getJWTClaimsSet().getExpirationTime());
+        log.info("exipredToken :: {}",exipredToken);
+        return exipredToken;
+    }
+
+
+
+
 
 
 }
